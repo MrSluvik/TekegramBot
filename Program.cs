@@ -169,12 +169,19 @@ namespace Bot
 
             if (n == 0)
             {
+                string imagePath = null;
+                string imagePath2 = null;
+                imagePath = Path.Combine(Environment.CurrentDirectory, "1.jpg");
+                imagePath2 = Path.Combine(Environment.CurrentDirectory, "2.jpg");
+
                 await botClient.SendTextMessageAsync(message.Chat.Id, $"Ви ввели :{message.Text}");
-                await using Stream stream = System.IO.File.OpenRead(@"D:/Users8/Я/Desktop/1.jpg");
-                await botClient.SendPhotoAsync(message.Chat.Id, new InputOnlineFile(stream, "1.jpg"));
+                await using Stream stream = System.IO.File.OpenRead(imagePath);
+                await botClient.SendPhotoAsync(message.Chat.Id, new InputOnlineFile(stream));
+
                 await botClient.SendTextMessageAsync(message.Chat.Id, $"Спробуйте знову ");
-                await using Stream stream2 = System.IO.File.OpenRead(@"D:/Users8/Я/Desktop/2.jpg");
-                await botClient.SendPhotoAsync(message.Chat.Id, new InputOnlineFile(stream2, "2.jpg"));
+                await using Stream stream2 = System.IO.File.OpenRead(imagePath2);
+                await botClient.SendPhotoAsync(message.Chat.Id, new InputOnlineFile(stream2));
+
                 return;
             }
 
@@ -192,13 +199,14 @@ namespace Bot
                 await botClient.SendTextMessageAsync(message.Chat.Id, text: "Підтримувані валютні курси:\nГотівковий курс :USD , EUR , BTS\nБезготівковий курс :USD , EUR ,RUR, BTS");
                 await botClient.SendTextMessageAsync(message.Chat.Id, text: $"Після вибору команди для роботи виберіть або введіть назву валютидля отримання її курсу,\nдля безготівкового курсу формату:[USD];\nдля готівкового курсу формату: USD");
                 await botClient.SendTextMessageAsync(message.Chat.Id, text: $"Підтримувані валютні пари для купівлі/продажу:\nГотівковий курс(CASH) :UAHUSD , UAHEUR ,UAHBTS\nБезготівковий курс(CASHLESS) :USDUAH , EURUAH , BTSUAH");
-                await botClient.SendTextMessageAsync(message.Chat.Id, text: $"Якщо хочете купити валюту , введіть за наступним шаблонм: 100 UAHUSD CASH BUY - для купівлі за готівковим курсом \n100 UAHUSD CASHLESS BUY - для купівлі за безготівковим курсом ");
-                await botClient.SendTextMessageAsync(message.Chat.Id, text: $"Якщо хочете продати валюту , введіть за наступним шаблонм: 100 UAHUSD CASH SALE  - для продажу по готівковому курсу\n 100 UAHUSD CASHLESS SALE - для продажу по безготівковому курсу ");
-                return;
+
             }
             if (message.Text == "/help")
             {
-                await botClient.SendTextMessageAsync(message.Chat.Id, text: "/cash команда виклику клавіатури для готівкового курсу валют \n\n /cashless команда виклику клавіатури для безготівкового курсу валют\n\n/currency команда яка надішле перелік підтримувагих валют ");
+                await botClient.SendTextMessageAsync(message.Chat.Id, text: "/cash команда виклику клавіатури для готівкового курсу валют \n\n /cashless команда виклику клавіатури для безготівкового курсу валют\n\n/currency команда яка надішле перелік підтримувагих валют для конвертування та ,для отримання актуального курсу валют  ");
+                await botClient.SendTextMessageAsync(message.Chat.Id, text: $"Якщо хочете купити валюту , введіть за наступним шаблонм: 100 UAHUSD  CASH BUY - для купівлі за готівковим курсом \n100 UAHUSD CASHLESS BUY - для купівлі за безготівковим курсом ");
+                await botClient.SendTextMessageAsync(message.Chat.Id, text: $"Якщо хочете продати валюту , введіть за наступним шаблонм: 100 USDUAH CASH SALE  - для продажу по готівковому курсу\n 100 USDUAH CASHLESS SALE - для продажу по безготівковому курсу ");
+                await botClient.SendTextMessageAsync(message.Chat.Id, text: $"Підтримуванні валютні пари для \nBUY:UAHUSD , UAHEUR , UAHBTC;\n SALE:USDUAH , EURUAH , BTCUAH");
                 return;
             }
             if (message.Text == "/cash")
